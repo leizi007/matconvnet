@@ -358,7 +358,7 @@ if opts.enableGpu && strcmp(opts.cudaMethod,'nvcc')
       flags.nvcc{end+1} = '/MD' ;
       check_clpath(); % check whether cl.exe in path
   end
-  flags.nvcc{end+1} = opts.cudaArch;
+%   flags.nvcc{end+1} = opts.cudaArch;
 end
 
 if opts.verbose
@@ -388,7 +388,7 @@ end
 
 % Intermediate object files
 srcs = horzcat(lib_src,mex_src) ;
-for i = 1:numel(horzcat(lib_src, mex_src))
+parfor i = 1:numel(horzcat(lib_src, mex_src))
   [~,~,ext] = fileparts(srcs{i}) ; ext(1) = [] ;
   if strcmp(ext,'cu')
     if strcmp(opts.cudaMethod,'nvcc')
@@ -402,7 +402,7 @@ for i = 1:numel(horzcat(lib_src, mex_src))
 end
 
 % Link into MEX files
-for i = 1:numel(mex_src)
+parfor i = 1:numel(mex_src)
   [~,base,~] = fileparts(mex_src{i}) ;
   objs = toobj(bld_dir, {mex_src{i}, lib_src{:}}) ;
   mex_link(opts, objs, mex_dir, flags.link) ;
