@@ -1,7 +1,6 @@
 function net = cnn_mnist_init(varargin)
 % CNN_MNIST_LENET Initialize a CNN similar for MNIST
-opts.useBatchNorm = true ;
-opts.networkType = 'simplenn' ;
+opts.useBnorm = true ;
 opts = vl_argparse(opts, varargin) ;
 
 rng('default');
@@ -39,31 +38,10 @@ net.layers{end+1} = struct('type', 'conv', ...
 net.layers{end+1} = struct('type', 'softmaxloss') ;
 
 % optionally switch to batch normalization
-if opts.useBatchNorm
+if opts.useBnorm
   net = insertBnorm(net, 1) ;
   net = insertBnorm(net, 4) ;
   net = insertBnorm(net, 7) ;
-end
-
-% Meta parameters
-net.meta.inputSize = [27 27 1] ;
-net.meta.trainOpts.learningRate = 0.001 ;
-net.meta.trainOpts.numEpochs = 20 ;
-net.meta.trainOpts.batchSize = 100 ;
-
-% Fill in defaul values
-net = vl_simplenn_tidy(net) ;
-
-% Switch to DagNN if requested
-switch lower(opts.networkType)
-  case 'simplenn'
-    % done
-  case 'dagnn'
-    net = dagnn.DagNN.fromSimpleNN(net, 'canonicalNames', true) ;
-    net.addLayer('error', dagnn.Loss('loss', 'classerror'), ...
-             {'prediction','label'}, 'error') ;
-  otherwise
-    assert(false) ;
 end
 
 % --------------------------------------------------------------------
@@ -73,7 +51,7 @@ assert(isfield(net.layers{l}, 'weights'));
 ndim = size(net.layers{l}.weights{1}, 4);
 layer = struct('type', 'bnorm', ...
                'weights', {{ones(ndim, 1, 'single'), zeros(ndim, 1, 'single')}}, ...
-               'learningRate', [1 1 0.05], ...
+               'learningRate', [1 1], ...
                'weightDecay', [0 0]) ;
 net.layers{l}.biases = [] ;
 net.layers = horzcat(net.layers(1:l), layer, net.layers(l+1:end)) ;
