@@ -1,0 +1,20 @@
+classdef Max < dagnn.ElementWise
+  %MAX DagNN max layer
+  %   Max layer takes the max of all its inputs and store the result as its
+  %   only output.
+  
+  properties (Transient)
+      numInputs
+      I
+  end
+  
+  methods
+      function outputs = forward(obj, inputs, params)
+          obj.numInputs = numel(inputs);
+          data = cat(5, inputs{:});
+          [outputs{1}, obj.I] = max(data, [], 5);          
+      end
+      
+      function [derInputs, derParams
+      
+      

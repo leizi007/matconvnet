@@ -26,7 +26,7 @@ struct acc_max
   inline acc_max(int poolHeight, int poolWidth, type derOutput = 0)
   :
   value(-std::numeric_limits<type>::infinity()),
-  derOutput(derOutput),
+   (derOutput),
   derDataActivePt(NULL)
   { }
 

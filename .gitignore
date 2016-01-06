@@ -10,12 +10,8 @@ data
 index.html
 matconvnet-*.tar.gz
 local
-<<<<<<< HEAD
-doc/site/docs/mfiles
-doc/site/site
 cudnn/*
-=======
->>>>>>> refs/remotes/origin/master
+*asv
 
 # Documentation
 doc/figures/svg/*.pdf
