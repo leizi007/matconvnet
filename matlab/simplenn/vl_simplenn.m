@@ -218,7 +218,8 @@ for i=1:n
     case 'softmax'
       res(i+1).x = vl_nnsoftmax(res(i).x) ;
     case 'loss'
-      res(i+1).x = vl_nnloss(res(i).x, l.class) ;
+%       res(i+1).x = vl_nnloss(res(i).x, l.class) ;
+      res(i+1).x = vl_nnloss(res(i).x, l.class, [], 'loss', l.loss) ;
     case 'softmaxloss'
       res(i+1).x = vl_nnsoftmaxloss(res(i).x, l.class) ;
     case 'relu'
@@ -356,7 +357,8 @@ if doder
       case 'softmax'
         res(i).dzdx = vl_nnsoftmax(res(i).x, res(i+1).dzdx) ;
       case 'loss'
-        res(i).dzdx = vl_nnloss(res(i).x, l.class, res(i+1).dzdx) ;
+%         res(i).dzdx = vl_nnloss(res(i).x, l.class, res(i+1).dzdx) ;
+        res(i).dzdx = vl_nnloss(res(i).x, l.class, res(i+1).dzdx, 'loss', l.loss) ;
       case 'softmaxloss'
         res(i).dzdx = vl_nnsoftmaxloss(res(i).x, l.class, res(i+1).dzdx) ;
       case 'relu'

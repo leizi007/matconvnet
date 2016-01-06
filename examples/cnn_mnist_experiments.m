@@ -1,11 +1,10 @@
 %% Experiment with the cnn_mnist_fc_bnorm
 
 [net_bn, info_bn] = cnn_mnist(...
-  'expDir', 'data/mnist-bnorm', 'useBnorm', true);
+  'expDir', '../data/mnist-bnormx', 'useBnorm', false);
 
 [net_fc, info_fc] = cnn_mnist(...
-  'expDir', 'data/mnist-baseline', 'useBnorm', false);
-
+  'expDir', '../data/mnist-baseline', 'useBnorm', false);
 
 %%
 figure(1) ; clf ;
